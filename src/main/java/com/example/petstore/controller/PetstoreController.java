@@ -16,20 +16,19 @@ public class  PetstoreController {
         return service.getPets();
     }
     @PostMapping("savePet")
-    public String  savePet(@RequestBody Pet pet) {
-        service.savePet(pet);
-        return "Pet saved successfully";
+    public Pet savePet(@RequestBody Pet pet) {
+       return service.savePet(pet);
     }
-    @GetMapping("/{id}")
-    public Pet getPetById(@PathVariable long id) {
-        return service.getPetById(id);
+    @GetMapping("/{phone}")
+    public Pet getPetByPhone(@PathVariable String phone) {
+        return service.getPetByPhone(phone);
     }
     @PutMapping("updatePet")
     public Pet updatePet(@RequestBody Pet pet) {
         return service.updatePet(pet);
     }
-    @DeleteMapping("/deletePet/{id}")
-    public void deletePet(@PathVariable long id) {
-        service.deletePet(id);
+    @DeleteMapping("/deletePet/{phone}")
+    public void deletePet(@PathVariable String phone) {
+        service.deletePet(phone);
     }
 }

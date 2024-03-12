@@ -1,52 +1,52 @@
 package com.example.petstore;
 
 import com.example.petstore.model.Pet;
-import com.example.petstore.service.PetstoreService;
-import org.junit.jupiter.api.Assertions;
+import com.example.petstore.repository.PetRepository;
+import com.example.petstore.service.impl.PetServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-import java.util.List;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-class PetstoreApplicationTests {
+class PetServiceImplTest {
+
+    @Mock
+    PetRepository repository;
+
+    @InjectMocks
+    PetServiceImpl petService;
 
     @Test
-    void contextLoads() {
-        PetstoreService service = new PetstoreService() {
-            @Override
-            public List<Pet> getPets() {
-                return null;
-            }
+    void shouldUpdatePetWhenExists() {
+        Pet existingPet = new Pet();
+        existingPet.setPhone("1234567890");
+        existingPet.setName("Old Name");
+        existingPet.setAge(5);
 
-            @Override
-            public void savePet(Pet pet) {
+        Pet newPet = new Pet();
+        newPet.setPhone("1234567890");
+        newPet.setName("New Name");
+        newPet.setAge(6);
 
-            }
+        when(repository.findPetByPhone(anyString())).thenReturn(existingPet);
 
-            @Override
-            public Pet getPetById(long id) {
-                return null;
-            }
+        petService.updatePet(newPet);
 
-            @Override
-            public Pet updatePet(Pet pet) {
-                return null;
-            }
-
-            @Override
-            public void deletePet(long id) {
-
-            }
-        };
-        List<Pet> pets = List.of(
-                Pet.builder().id(1).name("Dog").age(12).url("https://tut.by").status("Available").build(),
-                Pet.builder().id(2).name("Cat").age(5).url("https://onliner.by").status("Available").build(),
-                Pet.builder().id(3).name("Parrot").age(2).url("https://google.com").status("Available").build()
-        );
-        Assertions.assertNotEquals(null, service.getPets());
-        Assertions.assertNotEquals(null, service.getPetById(1));
-        Assertions.assertNotEquals(null, service.updatePet(pets.get(0)));
+        verify(repository, times(1)).save(newPet);
     }
 
+    @Test
+    void shouldNotUpdatePetWhenDoesNotExist() {
+        Pet newPet = new Pet();
+        newPet.setPhone("1234567890");
+        newPet.setName("New Name");
+        newPet.setAge(6);
+
+        when(repository.findPetByPhone(anyString())).thenReturn(null);
+
+        petService.updatePet(newPet);
+
+        verify(repository, times(0)).save(newPet);
+    }
 }

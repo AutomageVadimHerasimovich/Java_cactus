@@ -16,13 +16,13 @@ public class InMemoryPetstoreServiceImpl implements com.example.petstore.service
     }
 
     @Override
-    public void savePet(Pet pet) {
-        repository.savePet(pet);
+    public Pet savePet(Pet pet) {
+        return repository.savePet(pet);
     }
 
     @Override
-    public Pet getPetById(long id) {
-        return repository.getPetById(id);
+    public Pet getPetByPhone(String phone){
+        return repository.getPetByPhone(phone);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class InMemoryPetstoreServiceImpl implements com.example.petstore.service
     }
 
     @Override
-    public void deletePet(long id) {
-        repository.deletePet(id);
+    public void deletePet(String phone) {
+        repository.deletePet(phone);
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface PetstoreService {
     List<Pet> getPets();
-    void savePet(Pet pet);
-    Pet getPetById(long id);
+    Pet savePet(Pet pet);
+    Pet getPetByPhone(String phone);
     Pet updatePet(Pet pet);
-    void deletePet(long id);
+    void deletePet(String phone);
 }
