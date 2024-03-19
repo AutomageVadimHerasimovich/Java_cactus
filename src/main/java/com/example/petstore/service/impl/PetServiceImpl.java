@@ -37,7 +37,6 @@ public class PetServiceImpl implements PetstoreService {
             existingPet.setAge(pet.getAge());
             existingPet.setUrl(pet.getUrl());
             existingPet.setStatus(pet.getStatus());
-            // обновите все остальные поля, которые вы хотите изменить
         }
         assert existingPet != null;
         return repository.save(existingPet);
