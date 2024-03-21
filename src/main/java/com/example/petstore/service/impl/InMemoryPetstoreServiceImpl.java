@@ -1,5 +1,6 @@
 package com.example.petstore.service.impl;
 
+import com.example.petstore.model.Employee;
 import com.example.petstore.model.Pet;
 import com.example.petstore.repository.InMemoryPetDAO;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,10 @@ public class InMemoryPetstoreServiceImpl implements com.example.petstore.service
     public Pet updatePet(Pet pet) {
         return repository.updatePet(pet);
     }
-
+    @Override
+    public Employee connectPetToEmployee(String petPhone, String employeePhone) {
+        return repository.connectPetToEmployee(petPhone, employeePhone);
+    }
     @Override
     public void deletePet(String phone) {
         repository.deletePet(phone);

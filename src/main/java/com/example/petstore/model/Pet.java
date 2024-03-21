@@ -1,6 +1,5 @@
 package com.example.petstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,8 +16,4 @@ public class Pet {
     private String status;
     @Column(unique = true, nullable = false)
     private String phone;
-    @OneToOne(mappedBy = "pet", cascade = {CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Employee employee;
 }

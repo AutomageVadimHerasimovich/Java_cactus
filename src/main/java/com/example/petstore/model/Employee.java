@@ -3,6 +3,8 @@ package com.example.petstore.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "employees")
@@ -15,7 +17,7 @@ public class Employee {
     private String phone;
     private String password;
     private String role;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private List<Pet> pets;
 }

@@ -36,26 +36,36 @@ public class PetServiceImpl implements PetstoreService {
     @Override
     public Pet updatePet(Pet pet) {
         Pet existingPet = repository.findPetByPhone(pet.getPhone());
-        Employee existingEmployee = employeeRepository.findEmployeeByPhone(pet.getPhone());
         if (existingPet != null) {
             existingPet.setName(pet.getName());
             existingPet.setAge(pet.getAge());
             existingPet.setUrl(pet.getUrl());
             existingPet.setStatus(pet.getStatus());
-            existingEmployee.setPet(existingPet);
         }
         assert existingPet != null;
         return repository.save(existingPet);
+    }
+    @Override
+    public Employee connectPetToEmployee(String petPhone, String employeePhone) {
+        Employee existingEmployee = employeeRepository.findEmployeeByPhone(employeePhone);
+        Pet existingPet = repository.findPetByPhone(petPhone);
+        if (existingEmployee != null && existingPet != null) {
+            List<Pet> pets = existingEmployee.getPets();
+            if (pets.contains(existingPet)) {
+                return existingEmployee;
+            } else {
+                pets.add(existingPet);
+                existingEmployee.setPets(pets);
+            }
+        }
+        assert existingEmployee != null;
+        return employeeRepository.save(existingEmployee);
     }
 
     @Override
     @Transactional
     public void deletePet(String phone) {
-        Pet existingPet = repository.findPetByPhone(phone);
-        Employee existingEmployee = employeeRepository.findEmployeeByPhone(phone);
-        if (existingPet != null) {
-            existingEmployee.setPet(null);
-        }
+
         repository.deletePetByPhone(phone);
     }
 }

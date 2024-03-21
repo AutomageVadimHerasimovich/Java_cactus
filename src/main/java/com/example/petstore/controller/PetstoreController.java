@@ -1,5 +1,6 @@
 package com.example.petstore.controller;
 
+import com.example.petstore.model.Employee;
 import com.example.petstore.service.PetstoreService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,9 @@ public class  PetstoreController {
     @DeleteMapping("/deletePet/{phone}")
     public void deletePet(@PathVariable String phone) {
         service.deletePet(phone);
+    }
+    @PatchMapping("/connectPetToEmployee/{petPhone}/employee/{employeePhone}")
+    public Employee connectPetToEmployee(@PathVariable String petPhone, @PathVariable String employeePhone) {
+        return service.connectPetToEmployee(petPhone, employeePhone);
     }
 }
