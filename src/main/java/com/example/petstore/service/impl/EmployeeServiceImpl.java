@@ -39,6 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(existingEmployee);
     }
 
+    public List<Employee> findEmployeesByFirstNameAndRole(String name, String role) {
+        return employeeRepository.findEmployeesByFirstNameAndRole(name, role);
+    }
+
     @Transactional
     public void deleteEmployee(String phone) {
         employeeRepository.deleteEmployeeByPhone(phone);

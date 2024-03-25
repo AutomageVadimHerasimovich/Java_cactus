@@ -16,6 +16,10 @@ public class EmployeeController {
     public List<Employee> getEmployees() {
         return service.getEmployees();
     }
+    @GetMapping("/findEmployeeByFirstNameOrRole")
+    public List<Employee> getEmployeesByFirstNameAndRole(@RequestParam(defaultValue = "User") String name, @RequestParam(required = false, defaultValue = "User") String role) {
+        return service.findEmployeesByFirstNameAndRole(name, role);
+    }
     @PostMapping("saveEmployee")
     public Employee saveEmployee(@RequestBody Employee employee) {
         return service.saveEmployee(employee);

@@ -9,5 +9,6 @@ public interface EmployeeService {
     Employee saveEmployee(Employee employee);
     Employee getEmployeeByPhone(String phone);
     Employee updateEmployee(Employee employee);
+    List<Employee> findEmployeesByFirstNameAndRole(String name, String role);
     void deleteEmployee(String phone);
 }
