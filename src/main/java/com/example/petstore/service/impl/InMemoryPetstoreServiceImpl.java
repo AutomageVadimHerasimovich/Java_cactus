@@ -2,7 +2,7 @@ package com.example.petstore.service.impl;
 
 import com.example.petstore.model.Employee;
 import com.example.petstore.model.Pet;
-import com.example.petstore.repository.InMemoryPetDAO;
+import com.example.petstore.repository.InMemoryPetDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class InMemoryPetstoreServiceImpl implements com.example.petstore.service.PetstoreService{
-    private final InMemoryPetDAO repository;
+    private final InMemoryPetDao repository;
     @Override
     public List<Pet> getPets() {
         return repository.getPets();
