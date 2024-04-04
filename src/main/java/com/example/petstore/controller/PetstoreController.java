@@ -1,5 +1,6 @@
 package com.example.petstore.controller;
 
+import com.example.petstore.exception.MyExceptionHandler;
 import com.example.petstore.model.Employee;
 import com.example.petstore.model.Pet;
 import com.example.petstore.service.PetstoreService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/petstore")
 @AllArgsConstructor
+@MyExceptionHandler
 public class  PetstoreController {
   private final PetstoreService service;
 

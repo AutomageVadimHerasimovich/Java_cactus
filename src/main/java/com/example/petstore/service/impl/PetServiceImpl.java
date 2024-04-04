@@ -1,5 +1,6 @@
 package com.example.petstore.service.impl;
 
+import com.example.petstore.aspect.Logged;
 import com.example.petstore.model.Employee;
 import com.example.petstore.model.Pet;
 import com.example.petstore.repository.EmployeeRepository;
@@ -21,21 +22,25 @@ public class PetServiceImpl implements PetstoreService {
   private final PetRepository repository;
   private final EmployeeRepository employeeRepository;
 
+  @Logged
   @Override
   public List<Pet> getPets() {
     return repository.findAll();
   }
 
+  @Logged
   @Override
   public Pet savePet(Pet pet) {
     return repository.save(pet);
   }
 
+  @Logged
   @Override
   public Pet getPetByPhone(String phone) {
     return repository.findPetByPhone(phone);
   }
 
+  @Logged
   @Override
   public Pet updatePet(Pet pet) {
     Pet existingPet = repository.findPetByPhone(pet.getPhone());
@@ -49,6 +54,7 @@ public class PetServiceImpl implements PetstoreService {
     return repository.save(existingPet);
   }
 
+  @Logged
   @Override
   public Employee connectPetToEmployee(String petPhone, String employeePhone) {
     Employee existingEmployee = employeeRepository.findEmployeeByPhone(employeePhone);
@@ -66,6 +72,7 @@ public class PetServiceImpl implements PetstoreService {
     return employeeRepository.save(existingEmployee);
   }
 
+  @Logged
   @Override
   @Transactional
   public void deletePet(String phone) {

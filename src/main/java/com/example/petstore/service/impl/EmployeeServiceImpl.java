@@ -1,5 +1,6 @@
 package com.example.petstore.service.impl;
 
+import com.example.petstore.aspect.Logged;
 import com.example.petstore.model.Employee;
 import com.example.petstore.repository.EmployeeRepository;
 import com.example.petstore.service.EmployeeService;
@@ -35,12 +36,14 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employee the employee to save
    * @return the saved employee
    */
+  @Logged
   public Employee saveEmployee(Employee employee) {
     employeeRepository.save(employee);
     employeeCache.put(employee.getPhone(), employee);
     return employee;
   }
 
+  @Logged
   public Employee getEmployeeByPhone(String phone) {
     return employeeCache.get(phone);
   }
@@ -51,6 +54,8 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employee the employee to update
    * @return the updated employee
    */
+
+  @Logged
   public Employee updateEmployee(Employee employee) {
     Employee existingEmployee = employeeRepository.findEmployeeByPhone(employee.getPhone());
     if (existingEmployee != null) {
@@ -63,10 +68,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employeeRepository.save(existingEmployee);
   }
 
+  @Logged
   public List<Employee> findEmployeesByFirstNameAndRole(String name, String role) {
     return employeeRepository.findEmployeesByFirstNameAndRole(name, role);
   }
 
+  @Logged
   @Transactional
   public void deleteEmployee(String phone) {
     employeeRepository.deleteEmployeeByPhone(phone);
