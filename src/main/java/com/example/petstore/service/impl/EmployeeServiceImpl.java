@@ -6,6 +6,7 @@ import com.example.petstore.repository.EmployeeRepository;
 import com.example.petstore.service.EmployeeService;
 import com.example.petstore.service.cache.EmployeeCache;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * The service class for the Employee entity.
  */
 @Service
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
   private final EmployeeRepository employeeRepository;
@@ -27,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   }
 
   public List<Employee> getEmployees() {
+    log.info("Getting all employees");
     return employeeRepository.findAll();
   }
 
@@ -40,12 +43,22 @@ public class EmployeeServiceImpl implements EmployeeService {
   public Employee saveEmployee(Employee employee) {
     employeeRepository.save(employee);
     employeeCache.put(employee.getPhone(), employee);
+    log.info("Employee saved: {}", employee);
     return employee;
   }
 
+  /**
+   * Gets the employee with the given phone.
+   *
+   * @param phone the phone of the employee to get
+   * @return the employee with the given phone
+   */
   @Logged
   public Employee getEmployeeByPhone(String phone) {
-    return employeeCache.get(phone);
+    employeeCache.get(phone);
+    log.info("Getting employee by phone: {}", phone);
+    log.info("Employee found: {}", employeeRepository.findEmployeeByPhone(phone));
+    return employeeRepository.findEmployeeByPhone(phone);
   }
 
   /**
@@ -65,18 +78,26 @@ public class EmployeeServiceImpl implements EmployeeService {
       employeeCache.put(existingEmployee.getPhone(), existingEmployee);
     }
     assert existingEmployee != null;
+    log.info("Employee updated: {}", existingEmployee);
     return employeeRepository.save(existingEmployee);
   }
 
   @Logged
   public List<Employee> findEmployeesByFirstNameAndRole(String name, String role) {
+    log.info("Finding employees by first name and role: {} {}", name, role);
     return employeeRepository.findEmployeesByFirstNameAndRole(name, role);
   }
 
+  /**
+   * Deletes the employee with the given phone.
+   *
+   * @param phone the phone of the employee to delete
+   */
   @Logged
   @Transactional
   public void deleteEmployee(String phone) {
     employeeRepository.deleteEmployeeByPhone(phone);
     employeeCache.evict(phone);
+    log.info("Employee deleted by phone: {}", phone);
   }
 }
