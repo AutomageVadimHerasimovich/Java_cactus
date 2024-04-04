@@ -2,18 +2,20 @@ package com.example.petstore.aspect;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
+/**
+ * Aspect for logging.
+ */
 @Aspect
 @Component
 public class LoggingAspect {
@@ -23,6 +25,11 @@ public class LoggingAspect {
   private void allServiceMethods() {
   }
 
+  /**
+   * Logs the method arguments.
+   *
+   * @param joinPoint the join point
+   */
   @Before("allServiceMethods()")
   public void logBefore(final JoinPoint joinPoint) {
     Object[] args = joinPoint.getArgs();

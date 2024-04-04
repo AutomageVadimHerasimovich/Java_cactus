@@ -93,17 +93,26 @@ public final class GlobalExceptionHandler {
    */
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  public ResponseEntity<Response> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException ex) {
+  public ResponseEntity<Response> handleHttpRequestMethodNotSupportedException(final
+                                                      HttpRequestMethodNotSupportedException ex) {
     Response response = new Response();
     response.setMessage(ex.getLocalizedMessage());
-    response.setDescription("The HTTP method specified in the request is not supported for this resource");
+    response.setDescription("The HTTP method specified in "
+        + "the request is not supported for this resource");
 
     return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
   }
 
+  /**
+   * Handles the MissingPathVariableException exception.
+   *
+   * @param ex the exception to handle
+   * @return the response entity
+   */
   @ExceptionHandler(MissingPathVariableException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<Response> handleMissingPathVariableException(final MissingPathVariableException ex) {
+  public ResponseEntity<Response> handleMissingPathVariableException(final
+                                  MissingPathVariableException ex) {
     Response response = new Response();
     response.setMessage(ex.getLocalizedMessage());
     response.setDescription("One or more required path variables are missing");
@@ -111,6 +120,12 @@ public final class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
+  /**
+   * Handles the Exception exception.
+   *
+   * @param ex the exception to handle
+   * @return the response entity
+   */
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<Response> handleValidationExceptions(final Exception ex) {
