@@ -55,10 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
    */
   @Logged
   public Employee getEmployeeByPhone(String phone) {
-    employeeCache.get(phone);
     log.info("Getting employee by phone: {}", phone);
     log.info("Employee found: {}", employeeRepository.findEmployeeByPhone(phone));
-    return employeeRepository.findEmployeeByPhone(phone);
+    return employeeCache.get(phone).orElseGet(
+        () -> employeeRepository.findEmployeeByPhone(phone)
+    );
   }
 
   /**
@@ -98,6 +99,6 @@ public class EmployeeServiceImpl implements EmployeeService {
   public void deleteEmployee(String phone) {
     employeeRepository.deleteEmployeeByPhone(phone);
     employeeCache.evict(phone);
-    log.info("Employee deleted by phone: {}", phone);
+    log.info("Employee deleting by phone: {}", phone);
   }
 }

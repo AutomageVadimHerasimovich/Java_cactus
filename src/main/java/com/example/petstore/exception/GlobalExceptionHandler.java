@@ -121,7 +121,7 @@ public final class GlobalExceptionHandler {
   }
 
   /**
-   * Handles the Exception exception.
+   * Handles the Exception.
    *
    * @param ex the exception to handle
    * @return the response entity

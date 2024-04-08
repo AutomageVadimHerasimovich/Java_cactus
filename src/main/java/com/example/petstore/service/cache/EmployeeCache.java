@@ -3,11 +3,14 @@ package com.example.petstore.service.cache;
 import com.example.petstore.model.Employee;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
  * A cache for employees.
  */
+@Slf4j
 @Component
 public class EmployeeCache {
 
@@ -29,8 +32,8 @@ public class EmployeeCache {
     }
   }
 
-  public Employee get(String phone) {
-    return cache.get(phone);
+  public Optional<Employee> get(String phone) {
+    return Optional.ofNullable(cache.get(phone));
   }
 
   public void evict(String phone) {
