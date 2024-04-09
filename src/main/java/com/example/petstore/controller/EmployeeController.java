@@ -3,6 +3,7 @@ package com.example.petstore.controller;
 import com.example.petstore.exception.MyExceptionHandler;
 import com.example.petstore.model.Employee;
 import com.example.petstore.service.EmployeeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +40,7 @@ public class EmployeeController {
   }
 
   @PostMapping("saveEmployee")
-  public Employee saveEmployee(@RequestBody Employee employee) {
+  public Employee saveEmployee(@RequestBody @Valid Employee employee) {
     return service.saveEmployee(employee);
   }
 

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 /**
  * The service class for the Employee entity.
@@ -57,6 +58,9 @@ public class EmployeeServiceImpl implements EmployeeService {
   public Employee getEmployeeByPhone(String phone) {
     log.info("Getting employee by phone: {}", phone);
     log.info("Employee found: {}", employeeRepository.findEmployeeByPhone(phone));
+    if (employeeRepository.findEmployeeByPhone(phone) == null) {
+      throw new NotFoundException("Employee not found");
+    }
     return employeeCache.get(phone).orElseGet(
         () -> employeeRepository.findEmployeeByPhone(phone)
     );
