@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 /**
  * The service class for the Pet entity.
@@ -80,9 +81,19 @@ public class PetServiceImpl implements PetstoreService {
   }
 
   @Logged
+  public void savePets(List<Pet> pets) {
+    log.info("Saving multiple pets");
+    pets.forEach(this::savePet);
+  }
+
+  @Logged
   @Override
   @Transactional
   public void deletePet(String phone) {
+    if (repository.findPetByPhone(phone) == null) {
+      log.info("Pet not found by phone: {}", phone);
+      throw new NotFoundException("Pet not found by phone: " + phone);
+    }
     repository.deletePetByPhone(phone);
     log.info("Pet deleted by phone: {}", phone);
   }

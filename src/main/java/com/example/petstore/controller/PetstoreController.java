@@ -36,6 +36,12 @@ public class  PetstoreController {
     return service.savePet(pet);
   }
 
+  @PostMapping("savePets")
+  public List<Pet> savePets(@RequestBody List<Pet> pets) {
+    service.savePets(pets);
+    return pets;
+  }
+
   @GetMapping("/{phone}")
   public Pet getPetByPhone(@PathVariable String phone) {
     return service.getPetByPhone(phone);

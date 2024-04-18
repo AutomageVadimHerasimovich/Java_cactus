@@ -19,5 +19,7 @@ public interface PetstoreService {
 
   Employee connectPetToEmployee(String petPhone, String employeePhone);
 
+  void savePets(List<Pet> pets);
+
   void deletePet(String phone);
 }

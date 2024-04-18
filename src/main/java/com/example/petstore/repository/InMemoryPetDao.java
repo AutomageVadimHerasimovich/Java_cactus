@@ -73,6 +73,15 @@ public class InMemoryPetDao {
   }
 
   /**
+   * Saves the given list of pets.
+   *
+   * @param pets the list of pets to save
+   */
+  public void savePets(List<Pet> pets) {
+    this.pets.addAll(pets);
+  }
+
+  /**
    * Deletes the pet with the given phone number.
    *
    * @param phone the phone number of the pet to delete

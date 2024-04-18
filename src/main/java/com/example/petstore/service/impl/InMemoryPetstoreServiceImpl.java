@@ -48,6 +48,12 @@ public class InMemoryPetstoreServiceImpl implements com.example.petstore.service
   }
 
   @Override
+  public void savePets(List<Pet> pets) {
+    repository.savePets(pets);
+    log.info("Pets saved: {}", pets);
+  }
+
+  @Override
   public void deletePet(String phone) {
     repository.deletePet(phone);
     log.info("Pet deleted: {}", phone);
