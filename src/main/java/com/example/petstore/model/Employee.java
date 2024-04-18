@@ -10,13 +10,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
-import lombok.Data;
+
+import lombok.*;
 
 /**
  * This class represents the Employee entity.
  */
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employees")
 public class Employee {
   @Id
