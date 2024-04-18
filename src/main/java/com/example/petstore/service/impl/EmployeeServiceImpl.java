@@ -72,7 +72,6 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employee the employee to update
    * @return the updated employee
    */
-
   @Logged
   public Employee updateEmployee(Employee employee) {
     Employee existingEmployee = employeeRepository.findEmployeeByPhone(employee.getPhone());
