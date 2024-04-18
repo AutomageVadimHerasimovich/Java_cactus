@@ -57,10 +57,10 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Logged
   public Employee getEmployeeByPhone(String phone) {
     log.info("Getting employee by phone: {}", phone);
-    log.info("Employee found: {}", employeeRepository.findEmployeeByPhone(phone));
     if (employeeRepository.findEmployeeByPhone(phone) == null) {
       throw new NotFoundException("Employee not found");
     }
+    log.info("Employee found: {}", employeeRepository.findEmployeeByPhone(phone));
     return employeeCache.get(phone).orElseGet(
         () -> employeeRepository.findEmployeeByPhone(phone)
     );
