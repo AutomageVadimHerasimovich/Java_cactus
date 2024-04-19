@@ -66,11 +66,12 @@ public class InMemoryPetDao {
         .filter(index -> pets.get(index).getPhone().equals(petPhone))
         .findFirst()
         .orElse(-1);
-    if (petToConnect > -1) {
-      employees.set(petToConnect, employeePhone);
+    if (petToConnect > -1 && !employees.contains(employeePhone)) {
+        // If the pet exists and the employee's phone number is not in the list, add it to the list
+        employees.add(employeePhone);
     }
     return null;
-  }
+}
 
   /**
    * Saves the given list of pets.
