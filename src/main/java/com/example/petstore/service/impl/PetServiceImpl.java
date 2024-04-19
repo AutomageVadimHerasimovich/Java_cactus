@@ -6,6 +6,7 @@ import com.example.petstore.model.Pet;
 import com.example.petstore.repository.EmployeeRepository;
 import com.example.petstore.repository.PetRepository;
 import com.example.petstore.service.PetstoreService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,34 +23,34 @@ import org.webjars.NotFoundException;
 @Primary
 @Slf4j
 public class PetServiceImpl implements PetstoreService {
-  private final PetRepository repository;
+  private final PetRepository petRepository;
   private final EmployeeRepository employeeRepository;
 
   @Logged
   @Override
   public List<Pet> getPets() {
     log.info("Getting all pets");
-    return repository.findAll();
+    return petRepository.findAll();
   }
 
   @Logged
   @Override
   public Pet savePet(Pet pet) {
     log.info("Pet saved: {}", pet);
-    return repository.save(pet);
+    return petRepository.save(pet);
   }
 
   @Logged
   @Override
   public Pet getPetByPhone(String phone) {
     log.info("Getting pet by phone: {}", phone);
-    return repository.findPetByPhone(phone);
+    return petRepository.findPetByPhone(phone);
   }
 
   @Logged
   @Override
   public Pet updatePet(Pet pet) {
-    Pet existingPet = repository.findPetByPhone(pet.getPhone());
+    Pet existingPet = petRepository.findPetByPhone(pet.getPhone());
     if (existingPet != null) {
       existingPet.setName(pet.getName());
       existingPet.setAge(pet.getAge());
@@ -58,21 +59,22 @@ public class PetServiceImpl implements PetstoreService {
     }
     assert existingPet != null;
     log.info("Pet updated: {}", existingPet);
-    return repository.save(existingPet);
+    return petRepository.save(existingPet);
   }
 
   @Logged
   @Override
   public Employee connectPetToEmployee(String petPhone, String employeePhone) {
     Employee existingEmployee = employeeRepository.findEmployeeByPhone(employeePhone);
-    Pet existingPet = repository.findPetByPhone(petPhone);
+    Pet existingPet = petRepository.findPetByPhone(petPhone);
     if (existingEmployee != null && existingPet != null) {
       List<Pet> pets = existingEmployee.getPets();
-      if (pets.contains(existingPet)) {
-        return existingEmployee;
-      } else {
-        pets.add(existingPet);
+      if (pets == null) {
+        pets = new ArrayList<>();
         existingEmployee.setPets(pets);
+      }
+      if (!pets.contains(existingPet)) {
+        pets.add(existingPet);
       }
     }
     assert existingEmployee != null;
@@ -90,11 +92,11 @@ public class PetServiceImpl implements PetstoreService {
   @Override
   @Transactional
   public void deletePet(String phone) {
-    if (repository.findPetByPhone(phone) == null) {
+    if (petRepository.findPetByPhone(phone) == null) {
       log.info("Pet not found by phone: {}", phone);
       throw new NotFoundException("Pet not found by phone: " + phone);
     }
-    repository.deletePetByPhone(phone);
+    petRepository.deletePetByPhone(phone);
     log.info("Pet deleted by phone: {}", phone);
   }
 }
