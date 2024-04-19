@@ -67,11 +67,11 @@ public class InMemoryPetDao {
         .findFirst()
         .orElse(-1);
     if (petToConnect > -1 && !employees.contains(employeePhone)) {
-        // If the pet exists and the employee's phone number is not in the list, add it to the list
-        employees.add(employeePhone);
+      // If the pet exists and the employee's phone number is not in the list, add it to the list
+      employees.add(employeePhone);
     }
     return null;
-}
+  }
 
   /**
    * Saves the given list of pets.
