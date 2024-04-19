@@ -68,5 +68,39 @@ class EmployeeServiceImplTest {
         verify(employeeCache, times(1)).get(anyString());
     }
 
-    // Add more tests for other methods in the EmployeeServiceImpl class
+    @Test
+    void shouldUpdateEmployee() {
+        Employee existingEmployee = new Employee();
+        existingEmployee.setPhone("1234567890");
+        existingEmployee.setFirstName("Old Name");
+        existingEmployee.setRole("Old Role");
+        existingEmployee.setPassword("Old Password");
+
+        Employee newEmployee = new Employee();
+        newEmployee.setPhone("1234567890");
+        newEmployee.setFirstName("New Name");
+        newEmployee.setRole("New Role");
+        newEmployee.setPassword("New Password");
+
+        when(employeeRepository.findEmployeeByPhone(existingEmployee.getPhone())).thenReturn(existingEmployee);
+        when(employeeRepository.save(any(Employee.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Employee result = employeeService.updateEmployee(newEmployee);
+
+        assertEquals(newEmployee.getFirstName(), result.getFirstName());
+        assertEquals(newEmployee.getRole(), result.getRole());
+        assertEquals(newEmployee.getPassword(), result.getPassword());
+        verify(employeeRepository, times(1)).save(any(Employee.class));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenEmployeeNotFound() {
+        when(employeeRepository.findEmployeeByPhone(anyString())).thenReturn(null);
+
+        try {
+            employeeService.getEmployeeByPhone("1234567890");
+        } catch (Exception e) {
+            assertEquals("Employee not found", e.getMessage());
+        }
+    }
 }
