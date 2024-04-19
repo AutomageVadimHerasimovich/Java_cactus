@@ -94,6 +94,33 @@ class EmployeeServiceImplTest {
     }
 
     @Test
+    void shouldFindEmployeesByFirstNameAndRole() {
+    String name = "John";
+    String role = "Developer";
+    List<Employee> employees = Arrays.asList(new Employee(), new Employee());
+    when(employeeRepository.findEmployeesByFirstNameAndRole(name, role)).thenReturn(employees);
+
+    List<Employee> result = employeeService.findEmployeesByFirstNameAndRole(name, role);
+
+    assertEquals(employees, result);
+    verify(employeeRepository, times(1)).findEmployeesByFirstNameAndRole(name, role);
+    }
+
+    @Test
+    void shouldDeleteEmployee() {
+    String phone = "1234567890";
+    Employee employee = new Employee();
+    employee.setPhone(phone);
+
+    when(employeeRepository.findEmployeeByPhone(phone)).thenReturn(employee);
+
+    employeeService.deleteEmployee(phone);
+
+    verify(employeeRepository, times(1)).deleteEmployeeByPhone(phone);
+    verify(employeeCache, times(1)).evict(phone);
+    }
+
+    @Test
     void shouldThrowExceptionWhenEmployeeNotFound() {
         when(employeeRepository.findEmployeeByPhone(anyString())).thenReturn(null);
 
