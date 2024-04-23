@@ -82,10 +82,13 @@ public class PetServiceImpl implements PetstoreService {
     return employeeRepository.save(existingEmployee);
   }
 
+  @SuppressWarnings("SimplifyStreamApiCallChains")
   @Logged
   public void savePets(List<Pet> pets) {
     log.info("Saving multiple pets");
     pets.forEach(this::savePet);
+    pets.stream()
+        .forEach(this::savePet);
   }
 
   @Logged
