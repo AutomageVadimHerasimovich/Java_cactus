@@ -32,7 +32,7 @@ public class EmployeeController {
   public static final String COUNTER_MSG = "Counter = {}";
   private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
-  private void logCounter() {
+  private synchronized void logCounter() {
     LOGGER.info(COUNTER_MSG, counterService.incrementAndGet());
   }
 

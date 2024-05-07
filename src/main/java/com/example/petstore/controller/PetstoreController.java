@@ -32,7 +32,7 @@ public class  PetstoreController {
   public static final String COUNTER_MSG = "Counter = {}";
   private static final Logger LOGGER = LoggerFactory.getLogger(PetstoreController.class);
 
-  private void logCounter() {
+  private synchronized void logCounter() {
     LOGGER.info(COUNTER_MSG, counterService.incrementAndGet());
   }
 
