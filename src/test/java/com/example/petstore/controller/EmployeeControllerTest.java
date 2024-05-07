@@ -1,6 +1,7 @@
 package com.example.petstore.controller;
 
 import com.example.petstore.model.Employee;
+import com.example.petstore.service.CounterService;
 import com.example.petstore.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,10 @@ class EmployeeControllerTest {
 
     @Mock
     EmployeeService employeeService;
+
+    @SuppressWarnings("unused")
+    @Mock
+    CounterService counterService;
 
     @InjectMocks
     EmployeeController employeeController;
