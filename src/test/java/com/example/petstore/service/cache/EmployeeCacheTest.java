@@ -31,12 +31,17 @@ class EmployeeCacheTest {
     @Test
     void shouldGetEmployeeFromCache() {
         Employee employee = new Employee();
+        Employee employee2 = new Employee();
         employeeCache.put("1234567890", employee);
+        employeeCache.put("12345678910", employee2);
 
         Optional<Employee> result = employeeCache.get("1234567890");
+        Optional<Employee> result2 = employeeCache.get("12345678910");
 
         assertTrue(result.isPresent());
         assertEquals(employee, result.get());
+        assertTrue(result2.isPresent());
+        assertEquals(employee2, result2.get());
     }
 
     @Test
