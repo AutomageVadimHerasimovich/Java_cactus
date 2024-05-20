@@ -5,9 +5,11 @@ import com.example.petstore.repository.EmployeeRepository;
 import com.example.petstore.service.cache.EmployeeCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class EmployeeServiceImplTest {
 
     @Mock
@@ -27,9 +30,11 @@ class EmployeeServiceImplTest {
     @InjectMocks
     EmployeeServiceImpl employeeService;
 
+    MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(employeeService).build();
     }
 
     @Test
@@ -108,16 +113,19 @@ class EmployeeServiceImplTest {
 
     @Test
     void shouldDeleteEmployee() {
-    String phone = "1234567890";
-    Employee employee = new Employee();
-    employee.setPhone(phone);
+        String phone = "1234567890";
+        Employee employee = new Employee();
+        employee.setPhone(phone);
 
-    when(employeeRepository.findEmployeeByPhone(phone)).thenReturn(employee);
+        when(employeeRepository.findEmployeeByPhone(phone)).thenReturn(employee);
 
-    employeeService.deleteEmployee(phone);
+        Employee foundEmployee = employeeService.getEmployeeByPhone(phone);
+        assertEquals(employee, foundEmployee, "Employee should be found before deletion");
 
-    verify(employeeRepository, times(1)).deleteEmployeeByPhone(phone);
-    verify(employeeCache, times(1)).evict(phone);
+        employeeService.deleteEmployee(phone);
+
+        verify(employeeRepository, times(1)).deleteEmployeeByPhone(phone);
+        verify(employeeCache, times(1)).evict(phone);
     }
 
     @Test
