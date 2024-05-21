@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/pet_db
+#    url: jdbc:postgresql://localhost:5433/pet_db
+    url: jdbc:postgresql://monorail.proxy.rlwy.net:57641/railway
     username: postgres
-    password: admin
+#    password: admin
+    password: VlhTrnXiKquqehKtXgnnfAbqMzERwwhq
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
