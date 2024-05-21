@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * This class represents the controller layer for the Petstore application.
  */
-@CrossOrigin("*")
+@CrossOrigin("https://java-cactus.onrender.com")
 @RestController
 @RequestMapping("/api/v1/petstore")
 @AllArgsConstructor

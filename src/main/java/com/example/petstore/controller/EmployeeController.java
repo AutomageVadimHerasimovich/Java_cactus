@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * This class represents the controller layer for the Employee entity.
  */
-@CrossOrigin("*")
+@CrossOrigin("https://java-cactus.onrender.com")
 @RestController
 @RequestMapping("/api/v1/employee")
 @AllArgsConstructor
